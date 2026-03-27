@@ -1,0 +1,14 @@
+{
+  "name": "teamwork-marketplace",
+  "owner": {
+    "name": "LaserPhaser"
+  },
+  "plugins": [
+    {
+      "name": "teamwork",
+      "source": "./",
+      "description": "Multi-agent team orchestration for large programming tasks",
+      "version": "1.0.0"
+    }
+  ]
+}

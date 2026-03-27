@@ -1,0 +1,8 @@
+{
+  "name": "teamwork",
+  "description": "Multi-agent team orchestration for large programming tasks",
+  "version": "1.0.0",
+  "author": {
+    "name": "Arseny Antonov"
+  }
+}
