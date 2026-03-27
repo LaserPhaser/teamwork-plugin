@@ -2,6 +2,16 @@
 
 A Claude Code plugin that orchestrates a team of 5 specialized agents to autonomously handle large programming tasks: full refactors, language rewrites, codebase rebuilds, and greenfield projects.
 
+## Installation
+
+In Claude Code, run:
+
+```
+/plugin marketplace add LaserPhaser/teamwork-plugin
+/plugin install teamwork LaserPhaser/teamwork-plugin
+/reload-plugins
+```
+
 ## How It Works
 
 You describe what you want. The Boss agent asks 15-20+ structured questions to deeply understand the task, creates a phased implementation plan, gets your approval, then autonomously dispatches Developer, Code Reviewer, QA, and Product agents to implement it — chunk by chunk.
@@ -86,57 +96,6 @@ The plugin creates these files in your project's `docs/` directory:
 | `PLAN.md` | Boss | Chunked implementation plan |
 | `STATUS.md` | Product | Progress dashboard |
 | `DECISIONS.md` | Product | Decision log with rationale |
-
-## Installation
-
-### Step 1: Push to GitHub
-
-```bash
-cd teamwork-plugin
-git init
-git add -A
-git commit -m "Initial teamwork plugin"
-git remote add origin git@github.com:YOUR_USERNAME/teamwork-plugin.git
-git push -u origin main
-```
-
-### Step 2: Add marketplace and install
-
-In Claude Code, run these three commands:
-
-```
-/plugin marketplace add YOUR_USERNAME/teamwork-plugin
-/plugin install teamwork YOUR_USERNAME/teamwork-plugin
-/reload-plugins
-```
-
-### Step 3: Verify
-
-Run `/reload-plugins` — you should see the plugin loaded with no errors. Then `/teamwork:boss` is ready to use.
-
-### Updating
-
-After pushing changes to the repo:
-
-```
-/plugin marketplace update teamwork-marketplace
-```
-
-### Private Repos
-
-For private repositories, ensure your GitHub credentials are configured:
-
-```bash
-export GITHUB_TOKEN=ghp_your_personal_access_token
-```
-
-### Local Testing (no GitHub needed)
-
-To test the plugin before publishing:
-
-```bash
-claude --plugin-dir /path/to/teamwork-plugin
-```
 
 ## Usage
 
