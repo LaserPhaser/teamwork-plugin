@@ -12,14 +12,20 @@ In Claude Code, run:
 /reload-plugins
 ```
 
+## Commands
+
+| Command | What it does |
+|---------|-------------|
+| `/teamwork:boss` | Plan a project — asks questions, gathers requirements, creates chunked plan |
+| `/teamwork:begin` | Execute a plan — runs up to 3 chunks in parallel with multiple Dev/QA agents |
+
 ## How It Works
 
-You describe what you want. The Boss agent asks 15-20+ structured questions to deeply understand the task, creates a phased implementation plan, gets your approval, then autonomously dispatches Developer, Code Reviewer, QA, and Product agents to implement it — chunk by chunk.
+You describe what you want. The Boss agent asks 15-20+ structured questions to deeply understand the task, creates a phased implementation plan, and gets your approval. Then you run `/teamwork:begin` to execute it with parallel agents — like hiring multiple developers and QA engineers working on different chunks simultaneously.
 
 ```
-/teamwork:boss "Rewrite our Python API layer in Go"
-/teamwork:boss ./docs/migration-spec.md
-/teamwork:boss
+/teamwork:boss "Rewrite our Python API layer in Go"    # Plan the work
+/teamwork:begin                                         # Execute in parallel
 ```
 
 ## The Agents
@@ -35,23 +41,26 @@ You describe what you want. The Boss agent asks 15-20+ structured questions to d
 ## Workflow
 
 ```
-Phase 1: Requirements Gathering
-    Boss asks 15-20+ structured questions, one at a time
-    Writes docs/REQUIREMENTS.md
+/teamwork:boss
+├── Phase 1: Requirements Gathering
+│   Boss asks 15-20+ structured questions, one at a time
+│   Writes docs/REQUIREMENTS.md
+│
+├── Phase 2: Planning
+│   Boss creates docs/PLAN.md with chunked implementation plan
+│   Product writes Definition of Ready + Definition of Done per chunk
+│   >>> YOU APPROVE THE PLAN <<<
+│
+└── "Run /teamwork:begin for parallel execution"
 
-Phase 2: Planning
-    Boss creates docs/PLAN.md with chunked implementation plan
-    Product writes Definition of Ready + Definition of Done per chunk
-    >>> YOU APPROVE THE PLAN <<<
-
-Phase 3: Implementation Loop (per chunk)
-    Product confirms DoR is met
-    Developer implements the chunk
-    Code Reviewer reviews against requirements
-    QA writes tests, runs them, validates DoD
-    Product updates STATUS.md
-
-Phase 4: Completion
+/teamwork:begin
+├── Phase 3: Parallel Implementation (up to 3 chunks at once)
+│   ┌─ Chunk A: Developer → Code Reviewer → QA ─┐
+│   ├─ Chunk B: Developer → Code Reviewer → QA ─┤ simultaneous
+│   └─ Chunk C: Developer → Code Reviewer → QA ─┘
+│   Product updates STATUS.md after each chunk (serialized)
+│
+└── Phase 4: Completion
     Final report: what was done, decisions made, remaining concerns
 ```
 
@@ -100,14 +109,18 @@ The plugin creates these files in your project's `docs/` directory:
 ## Usage
 
 ```bash
-# Pass task as text
+# Step 1: Plan the work (Boss asks questions, creates plan)
 /teamwork:boss "Refactor the auth module to use JWT instead of sessions"
 
-# Pass task as file
+# Step 2: Execute in parallel (after plan is approved)
+/teamwork:begin
+
+# Or pass a file as task description
 /teamwork:boss ./task-description.md
 
-# Resume or start interactively
-/teamwork:boss
+# Resume an interrupted session
+/teamwork:boss     # resumes planning if PLAN.md is missing
+/teamwork:begin    # resumes execution if PLAN.md exists
 ```
 
 ## License

@@ -89,7 +89,9 @@ Check for project-specific coding standards:
 3. Dispatch Product agent to write DoR (Definition of Ready) and DoD (Definition of Done) for each chunk
 4. Present the plan to the human and **ASK FOR APPROVAL**
 5. If rejected: ask targeted follow-up questions, revise, re-present. Do NOT restart requirements gathering unless human explicitly requests it.
-6. If approved: proceed to Phase 3
+6. If approved: tell the user they can now run:
+   - `/teamwork:begin` — **parallel execution** (up to 3 chunks simultaneously, recommended for plans with independent chunks)
+   - Or continue here for **sequential execution** (Phase 3 below, one chunk at a time)
 
 ---
 
